@@ -19,19 +19,8 @@ model_path = project_path + "ecg_model.h5"
 RATIO = 0.3
 
 
-# 读取心电数据和对应标签,并对数据进行小波去噪
-def getDataSet(number, X_data, Y_data):
-    ecgClassSet = ['N', 'A', 'V', 'L', 'R']
-
-    # 读取心电数据记录
-    print("正在读取 " + number + " 号心电数据...")
-    record = wfdb.rdrecord('ecg_data/' + number, channel_names=['MLII'])
-    ecg = record.p_signal
-    data = []
-    for i in range(len(ecg) - 1):
-        Y = float(ecg[i])
-        data.append(Y)
-
+# 小波去噪预处理
+def denoise(data):
     # 小波变换
     coeffs = pywt.wavedec(data=data, wavelet='db5', level=9)
     cA9, cD9, cD8, cD7, cD6, cD5, cD4, cD3, cD2, cD1 = coeffs
@@ -45,6 +34,18 @@ def getDataSet(number, X_data, Y_data):
 
     # 小波反变换,获取去噪后的信号
     rdata = pywt.waverec(coeffs=coeffs, wavelet='db5')
+    return rdata
+
+
+# 读取心电数据和对应标签,并对数据进行小波去噪
+def getDataSet(number, X_data, Y_data):
+    ecgClassSet = ['N', 'A', 'V', 'L', 'R']
+
+    # 读取心电数据记录
+    print("正在读取 " + number + " 号心电数据...")
+    record = wfdb.rdrecord('ecg_data/' + number, channel_names=['MLII'])
+    data = record.p_signal.flatten()
+    rdata = denoise(data=data)
 
     # 获取心电数据记录中R波的位置和对应的标签
     annotation = wfdb.rdann('ecg_data/' + number, 'atr')
@@ -59,7 +60,7 @@ def getDataSet(number, X_data, Y_data):
 
     # 因为只选择NAVLR五种心电类型,所以要选出该条记录中所需要的那些带有特定标签的数据,舍弃其余标签的点
     # X_data在R波前后截取长度为300的数据点
-    # Y_data将NAVLR按顺序转换为12345
+    # Y_data将NAVLR按顺序转换为01234
     while i < j:
         try:
             lable = ecgClassSet.index(Rclass[i])
