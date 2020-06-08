@@ -98,8 +98,10 @@ def loadData():
     shuffle_index = np.random.permutation(len(X))
     test_length = int(RATIO * len(shuffle_index))
     test_index = shuffle_index[:test_length]
+    train_index = shuffle_index[test_length:]
     X_test, Y_test = X[test_index], Y[test_index]
-    return X, Y, X_test, Y_test
+    X_train, Y_train = X[train_index], Y[train_index]
+    return X_train, Y_train, X_test, Y_test
 
 
 # 构建CNN模型
@@ -149,9 +151,9 @@ def plotHeatMap(Y_test, Y_pred):
 
 
 def main():
-    # X,Y为所有的数据集和标签集
+    # X_train,Y_train为所有的数据集和标签集
     # X_test,Y_test为拆分的测试集和标签集
-    X, Y, X_test, Y_test = loadData()
+    X_train, Y_train, X_test, Y_test = loadData()
 
     if os.path.exists(model_path):
         # 导入训练好的模型
@@ -166,7 +168,7 @@ def main():
         # 定义TensorBoard对象
         tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
         # 训练与验证
-        model.fit(X, Y, epochs=30,
+        model.fit(X_train, Y_train, epochs=30,
                   batch_size=128,
                   validation_split=RATIO,
                   callbacks=[tensorboard_callback])
