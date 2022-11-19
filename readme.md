@@ -1,6 +1,6 @@
 # A Deep Learning Baseline of MIT-BIH ECG Recognition
 
-* Details of this project can be found in my blog articles:
+## Details of this project can be found in my blog articles:
 
 [使用Python+TensorFlow2构建基于卷积神经网络（CNN）的ECG心电信号识别分类（一）](https://www.cnblogs.com/lxy764139720/p/12830037.html)
 
@@ -10,7 +10,7 @@
 
 [使用Python+TensorFlow2构建基于卷积神经网络（CNN）的ECG心电信号识别分类（四）](https://www.cnblogs.com/lxy764139720/p/12879907.html)
 
-* Requirements:
+## Requirements:
 
 common packages:
 
@@ -30,7 +30,7 @@ pytorch packages:
 torch>=1.4.0
 ```
 
-* Usage:
+## Usage:
 
 for tensorflow:
 
@@ -50,7 +50,7 @@ visualize the log in tensorboard:
 tensorboard --logdir=./logs/<log_dir_name>
 ```
 
-* File Structure:
+## File Structure:
 
 main_tf.py: code implemented by TensorFlow2
 
@@ -58,7 +58,7 @@ main_torch.py: code implemented by PyTorch
 
 utils.py: util functions about data processing and plotting
 
-* Note:
+## Note:
 
 **Be careful!** The input of the convolution (1d) layer in tensorflow and pytorch are different.
 
@@ -70,7 +70,7 @@ Therefore, the input of the convolution layer in tensorflow needs to be reshaped
 
 Data shape in this version of code may vary with my blogs.
 
-* Feel Helpful?
+## Feel Helpful?
 
 If you find this project helpful, please give me a star. Thanks!
 
