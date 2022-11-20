@@ -10,7 +10,7 @@
 
 [使用Python+TensorFlow2构建基于卷积神经网络（CNN）的ECG心电信号识别分类（四）](https://www.cnblogs.com/lxy764139720/p/12879907.html)
 
-## Requirements:
+## Requirements
 
 common packages:
 
@@ -21,7 +21,7 @@ pip install wfdb, pywavelets, numpy, matplotlib, seaborn, sklearn, tensorboard
 tensorflow packages:
 
 ```
-tensorflow>=2.0.0
+tensorflow>=2.3.0
 ```
 
 pytorch packages:
@@ -30,7 +30,7 @@ pytorch packages:
 torch>=1.4.0
 ```
 
-## Usage:
+## Usage
 
 for tensorflow:
 
@@ -44,13 +44,17 @@ for pytorch:
 python main_torch.py
 ```
 
+> With ecg_model.h5 or ecg_model.pt in the directory, the commands above will load the model and evaluate it.
+> 
+> If you want to train the model, please remove the model file and run the commands.
+
 visualize the log in tensorboard:
 
 ```shell
 tensorboard --logdir=./logs/<log_dir_name>
 ```
 
-## File Structure:
+## File Structure
 
 main_tf.py: code implemented by TensorFlow2
 
@@ -58,7 +62,7 @@ main_torch.py: code implemented by PyTorch
 
 utils.py: util functions about data processing and plotting
 
-## Note:
+## Note
 
 **Be careful!** The input of the convolution (1d) layer in tensorflow and pytorch are different.
 
@@ -68,7 +72,7 @@ The denoised ECG data shape in numpy format is [batch_size, length].
 
 Therefore, the input of the convolution layer in tensorflow needs to be reshaped to [batch_size, length, channel], while that in pytorch needs to be reshaped to [batch_size, channel, length], where channel equals 1.
 
-Data shape in this version of code may vary with my blogs.
+*Data shape in this version of code may vary with my blogs.*
 
 ## Feel Helpful?
 
